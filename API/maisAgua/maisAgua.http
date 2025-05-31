@@ -1,0 +1,6 @@
+@maisAgua_HostAddress = http://localhost:5222
+
+GET {{maisAgua_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
