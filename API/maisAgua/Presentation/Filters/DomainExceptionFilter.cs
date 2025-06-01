@@ -21,13 +21,17 @@ public class DomainExceptionFilter : IExceptionFilter
         if (context.Exception is DomainException domainException)
         {
             // Aprender mais sobre Logger para adicionar aqui
-
-            var errorResponse = new ErrorResponseDTO
+            var errorResponse = new ErrorResponseDTO()
             {
                 StatusCode = (int)HttpStatusCode.BadRequest,
                 Message = domainException.Message
             };
 
+            if (domainException is DeviceNotFoundException)
+            {
+                errorResponse.StatusCode = (int)HttpStatusCode.NotFound;
+            };
+            
             if (_enviroment.IsDevelopment())
             {
                 errorResponse.StackTrace = context.Exception.StackTrace;

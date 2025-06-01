@@ -6,8 +6,6 @@ using maisAgua.Domain.Device;
 using maisAgua.Domain.Exceptions;
 using Microsoft.AspNetCore.Mvc;
 
-
-
 namespace maisAgua.Application.Service;
 
 public class DeviceService
@@ -15,13 +13,13 @@ public class DeviceService
     public readonly DeviceRepository _repository;
     public readonly DeviceCreateValidator _validator;
 
-    public DeviceService(DeviceRepository repository, DeviceCreateValidator validator) 
+    public DeviceService(DeviceRepository repository, DeviceCreateValidator validator)
     {
         _repository = repository;
         _validator = validator;
     }
 
-    public async Task<List<Device>> GetDevicesAsync() => await _repository.getAllAsync();
+    public async Task<List<Device>> GetDevicesAsync() => await _repository.GetAllAsync();
 
     public async Task<Device> CreateDeviceAsync(DeviceCreateDTO createDTO)
     {
@@ -30,7 +28,7 @@ public class DeviceService
         if (!validationResult.IsValid)
         {
             string error = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-            throw new DomainException("Falha ao validar dispositivo: " + error);
+            throw new DomainException(error);
         }
 
         var device = new Device()
@@ -43,4 +41,19 @@ public class DeviceService
 
         return device;
     }
+
+    public async Task<Device> GetByIdAsync(int id)
+    {
+        var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
+
+        return device;
+    }
+
+    public async Task<bool> DeleteAsync(int id)
+    {
+        var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
+        await _repository.DeleteAsync(device);
+        return true;
+    }
 }
+

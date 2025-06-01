@@ -6,13 +6,13 @@ namespace maisAgua.Domain.Interfaces;
 
 public interface IRepository<T> where T : class
 {
-    Task<List<T>> getAllAsync();
+    Task<List<T>> GetAllAsync();
 
-    Task<T> getByIdAsync(int id);
+    Task<T> GetByIdAsync(int id);
 
     Task<T> AddAsync(T entity);
 
     Task<T> Update(T entity);
 
-    Task<bool> Delete(T entity);
+    Task<bool> DeleteAsync(T entity);
 }

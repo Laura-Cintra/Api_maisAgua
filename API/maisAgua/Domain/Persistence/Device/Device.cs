@@ -9,7 +9,6 @@
         // Leituras do dispositivo
         public List<Reading> Readings { get; set; } = new List<Reading>();
 
-
         // Construtores
         public Device() { }
         
@@ -19,7 +18,5 @@
             Name = name;
             InstallationDate = installationDate;
         }
-
-
     }
 }
