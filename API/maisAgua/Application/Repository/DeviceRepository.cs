@@ -19,7 +19,7 @@ namespace maisAgua.Application.Repository
         {
             try
             {
-                return await _context.Devices.OrderByDescending(x => x.Id).ToListAsync();
+                return await _context.Devices.OrderByDescending(x => x.Id).Include(x => x.Readings).ToListAsync();
             }
             catch (OperationCanceledException ex)
             {
@@ -31,7 +31,7 @@ namespace maisAgua.Application.Repository
         {
             try
             {
-                return await _context.Devices.FirstOrDefaultAsync(x => x.Id == id);
+                return await _context.Devices.Include(x => x.Readings).FirstOrDefaultAsync(x => x.Id == id);
             }
             catch (OperationCanceledException ex)
             {

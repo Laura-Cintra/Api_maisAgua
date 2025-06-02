@@ -754,7 +754,7 @@
           "readings": {
             "type": "array",
             "items": {
-              "$ref": "#/components/schemas/Reading"
+              "$ref": "#/components/schemas/ReadingReadDTO"
             },
             "nullable": true
           }

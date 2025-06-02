@@ -4,7 +4,6 @@ using maisAgua.Application.Repository;
 using maisAgua.Application.Validators.Readings;
 using maisAgua.Domain.Exceptions;
 using maisAgua.Domain.Persistence.Readings;
-using System.Reflection;
 
 
 namespace maisAgua.Application.Service
@@ -24,102 +23,72 @@ namespace maisAgua.Application.Service
 
         public async Task<List<Reading>> GetAllReadingsAsync()
         {
-            try
-            {
-                return await _repository.GetAllAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new DomainException("Erro não mapeado ao buscar leituras.", ex);
-            }
+            return await _repository.GetAllAsync();
         }
+
         public async Task<Reading> AddReadingAsync(ReadingCreateDTO createDTO)
         {
-            try
+            ValidationResult validationResult = await _createValidator.ValidateAsync(createDTO);
+
+            if (!validationResult.IsValid)
             {
-                ValidationResult validationResult = await _createValidator.ValidateAsync(createDTO);
-
-                if (!validationResult.IsValid)
-                {
-                    string error = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-                    throw new DomainException(error);
-                }
-
-                var reading = new Reading()
-                {
-                    LevelPct = createDTO.LevelPct,
-                    TurbidityNtu = createDTO.TurbidityNtu,
-                    PhLevel = createDTO.PhLevel,
-                    ReadingDatetime = createDTO.ReadingDatetime,
-                    IdDevice = createDTO.IdDevice
-                };
-
-                return await _repository.AddAsync(reading);
+                string error = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new DomainException(error);
             }
-            catch (Exception ex)
+
+            var reading = new Reading()
             {
-                throw new DomainException("Erro não mapeado ao adicionar leitura.", ex);
-            }
+                LevelPct = createDTO.LevelPct,
+                TurbidityNtu = createDTO.TurbidityNtu,
+                PhLevel = createDTO.PhLevel,
+                ReadingDatetime = createDTO.ReadingDatetime,
+                IdDevice = createDTO.IdDevice
+            };
+
+            return await _repository.AddAsync(reading);
+
         }
 
 
         public async Task<Reading> UpdateReadingAsync(int id, ReadingUpdateDTO updateDTO)
         {
-            try
+
+            var reading = await _repository.GetByIdAsync(id) ?? throw new ReadingNotFoundException(id);
+
+            ValidationResult validationResult = await _updateValidator.ValidateAsync(updateDTO);
+
+            if (!validationResult.IsValid)
             {
-                var reading = await _repository.GetByIdAsync(id) ?? throw new ReadingNotFoundException(id);
-
-                ValidationResult validationResult = await _updateValidator.ValidateAsync(updateDTO);
-
-                if (!validationResult.IsValid)
-                {
-                    string error = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-                    throw new DomainException(error);
-                }
-
-                // Aprender mais sobre auto mapper para evitar essa verificação manual
-                if (updateDTO.LevelPct != null)
-                    reading.LevelPct = updateDTO.LevelPct.Value;
-                if (updateDTO.TurbidityNtu != null)
-                    reading.TurbidityNtu = updateDTO.TurbidityNtu.Value;
-                if (updateDTO.PhLevel != null)
-                    reading.PhLevel = updateDTO.PhLevel.Value;
-                if (updateDTO.ReadingDatetime != null)
-                    reading.ReadingDatetime = updateDTO.ReadingDatetime.Value;
-                if (updateDTO.IdDevice != null)
-                    reading.IdDevice = updateDTO.IdDevice.Value;
-
-                return await _repository.UpdateAsync(reading);
+                string error = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new DomainException(error);
             }
-            catch (Exception ex)
-            {
-                throw new DomainException("Erro não mapeado ao atualizar leitura.", ex);
-            }
+
+            // Aprender mais sobre auto mapper para evitar essa verificação manual
+            if (updateDTO.LevelPct != null)
+                reading.LevelPct = updateDTO.LevelPct.Value;
+            if (updateDTO.TurbidityNtu != null)
+                reading.TurbidityNtu = updateDTO.TurbidityNtu.Value;
+            if (updateDTO.PhLevel != null)
+                reading.PhLevel = updateDTO.PhLevel.Value;
+            if (updateDTO.ReadingDatetime != null)
+                reading.ReadingDatetime = updateDTO.ReadingDatetime.Value;
+            if (updateDTO.IdDevice != null)
+                reading.IdDevice = updateDTO.IdDevice.Value;
+
+            return await _repository.UpdateAsync(reading);
         }
+
+
 
         public async Task<bool> DeleteReadingAsync(int id)
         {
-            try
-            {
-                var reading = await _repository.GetByIdAsync(id) ?? throw new ReadingNotFoundException(id);
-                return await _repository.DeleteAsync(reading);
-            }
-            catch (Exception ex)
-            {
-                throw new DomainException("Erro não mapeado ao deletar leitura.", ex);
-            }
+            var reading = await _repository.GetByIdAsync(id) ?? throw new ReadingNotFoundException(id);
+            return await _repository.DeleteAsync(reading);
         }
 
         public async Task<Reading> GetReadingByIdAsync(int id)
         {
-            try
-            {
-                return await _repository.GetByIdAsync(id);
-            }
-            catch (Exception ex)
-            {
-                throw new DomainException("Erro não mapeado ao buscar leitura por Id", ex);
-            }
+            return await _repository.GetByIdAsync(id);
         }
     }
 }

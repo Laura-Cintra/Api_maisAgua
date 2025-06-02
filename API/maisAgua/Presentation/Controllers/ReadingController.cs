@@ -35,7 +35,18 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<List<Reading>>> GetAllAsync()
         {
-            return Ok(await _service.GetAllReadingsAsync());
+            var readings = await _service.GetAllReadingsAsync();
+            var readingsDTO = readings.Select(x => new ReadingReadDTO()
+            {
+                Id = x.Id,
+                LevelPct = x.LevelPct,
+                TurbidityNtu = x.TurbidityNtu,
+                PhLevel = x.PhLevel,
+                ReadingDatetime = x.ReadingDatetime,
+                IdDevice = x.IdDevice,
+            }).ToList();
+
+            return Ok(readingsDTO);
         }
 
         /// <summary>
@@ -92,7 +103,17 @@ namespace maisAgua.Presentation.Controllers
         public async Task<ActionResult<ReadingReadDTO>> CreateAsync([FromBody] ReadingCreateDTO createDTO)
         {
             var reading = await _service.AddReadingAsync(createDTO);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = reading.Id }, reading);
+            var readingDTO = new ReadingReadDTO()
+            {
+                Id = reading.Id,
+                LevelPct = reading.LevelPct,
+                TurbidityNtu = reading.TurbidityNtu,
+                PhLevel = reading.PhLevel,
+                ReadingDatetime = reading.ReadingDatetime,
+                IdDevice = reading.IdDevice,
+            };
+            return StatusCode(StatusCodes.Status201Created, readingDTO);
+            //return CreatedAtAction(nameof(GetByIdAsync), new { id = reading.Id }, reading);
         }
 
         /// <summary>
@@ -120,7 +141,7 @@ namespace maisAgua.Presentation.Controllers
         public async Task<ActionResult<ReadingReadDTO>> UpdateAsync(int id, [FromBody] ReadingUpdateDTO updateDTO)
         {
             var reading = await _service.UpdateReadingAsync(id, updateDTO);
-            var readingDTO = new ReadingUpdateDTO()
+            var readingDTO = new ReadingReadDTO()
             {
                 Id = reading.Id,
                 LevelPct = reading.LevelPct,

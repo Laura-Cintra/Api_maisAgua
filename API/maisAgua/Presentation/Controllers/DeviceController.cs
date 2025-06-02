@@ -1,10 +1,14 @@
 ﻿using maisAgua.Application.DTOs.DeviceDTO;
+using maisAgua.Application.DTOs.Devices;
+using maisAgua.Application.DTOs.Readings;
 using maisAgua.Application.Service;
 using maisAgua.Domain.Persistence.Devices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace maisAgua.Presentation.Controllers
 {
+    // TODO: Mover DTOs para a camada service, pois não é uma responsabilidade do Controller conhecer os DTOs de domínio.
+
     [Route("api/[controller]")]
     [ApiController]
     [Tags("Dispositivos")]
@@ -34,12 +38,16 @@ namespace maisAgua.Presentation.Controllers
         {
 
             var devices = await _service.GetAllDevicesAsync();
-            var devicesDTO = devices.Select(x => new DeviceReadDTO()
+            var devicesDTO = devices.OrderByDescending(x => x.Id).Select(x => new DevicesReadDTO()
             {
                 Id = x.Id,
                 Name = x.Name,
                 InstallationDate = x.InstallationDate,
-                Readings = x.Readings,
+                Readings = x.Readings.OrderByDescending(z => z.Id).Take(5).Select(z => new ReadingBasicInfoDTO()
+                {
+                    Id = z.Id,
+                    ReadingDateTime = z.ReadingDatetime,
+                }).ToList(),
             }).ToList();
 
             return Ok(devicesDTO);
@@ -72,7 +80,15 @@ namespace maisAgua.Presentation.Controllers
                 Id = device.Id,
                 Name = device.Name,
                 InstallationDate = device.InstallationDate,
-                Readings = device.Readings,
+                Readings = device.Readings.OrderByDescending(x => x.Id).Take(10).Select(x => new ReadingReadDTO()
+                {
+                    Id = x.Id,
+                    LevelPct = x.LevelPct,
+                    TurbidityNtu = x.TurbidityNtu,
+                    PhLevel = x.PhLevel,
+                    ReadingDatetime = x.ReadingDatetime,
+                    IdDevice = x.IdDevice,
+                }).ToList(),
             };
             return Ok(deviceDTO);
 
@@ -129,7 +145,15 @@ namespace maisAgua.Presentation.Controllers
                 Id = device.Id,
                 Name = device.Name,
                 InstallationDate = device.InstallationDate,
-                Readings = device.Readings,
+                Readings = device.Readings.Select(x => new ReadingReadDTO()
+                {
+                    Id = x.Id,
+                    LevelPct = x.LevelPct,
+                    TurbidityNtu = x.TurbidityNtu,
+                    PhLevel = x.PhLevel,
+                    ReadingDatetime = x.ReadingDatetime,
+                    IdDevice = x.IdDevice,
+                }).ToList(),
             };
             return Ok(readDTO);
         }

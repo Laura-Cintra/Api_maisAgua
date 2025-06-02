@@ -1,6 +1,6 @@
 ﻿namespace maisAgua.Application.DTOs.Readings
 {
-    public class ReadingReadDTO
+    public record ReadingReadDTO
     {
         public int? Id { get; set; }
         public int? LevelPct { get; set; }

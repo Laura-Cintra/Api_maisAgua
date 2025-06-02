@@ -1,4 +1,5 @@
-﻿using maisAgua.Domain.Persistence.Readings;
+﻿using maisAgua.Application.DTOs.Readings;
+using maisAgua.Domain.Persistence.Readings;
 
 namespace maisAgua.Application.DTOs.DeviceDTO
 {
@@ -7,6 +8,7 @@ namespace maisAgua.Application.DTOs.DeviceDTO
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime InstallationDate { get; set; }
-        public List<Reading> Readings { get; set; }
+
+        public List<ReadingReadDTO> Readings { get; set; }
     }
 }
