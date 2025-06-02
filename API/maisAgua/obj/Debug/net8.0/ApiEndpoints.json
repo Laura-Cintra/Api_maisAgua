@@ -41,7 +41,7 @@
     "Order": 0,
     "Parameters": [
       {
-        "Name": "deviceDTO",
+        "Name": "createDTO",
         "Type": "maisAgua.Application.DTOs.DeviceDTO.DeviceCreateDTO",
         "IsRequired": true
       }
@@ -122,6 +122,40 @@
         "Type": "System.Void",
         "MediaTypes": [],
         "StatusCode": 503
+      }
+    ],
+    "Tags": [
+      "Dispositivos"
+    ]
+  },
+  {
+    "ContainingType": "maisAgua.Presentation.Controllers.DeviceController",
+    "Method": "Update",
+    "RelativePath": "api/Device/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDTO",
+        "Type": "maisAgua.Application.DTOs.DeviceDTO.DeviceUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "maisAgua.Application.DTOs.DeviceDTO.DeviceReadDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
       }
     ],
     "Tags": [

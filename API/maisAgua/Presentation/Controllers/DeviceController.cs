@@ -1,11 +1,7 @@
 ﻿using maisAgua.Application.DTOs.DeviceDTO;
-using maisAgua.Application.Repository;
 using maisAgua.Application.Service;
 using maisAgua.Domain.Device;
-using maisAgua.Domain.Exceptions;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using System.Net;
 
 namespace maisAgua.Presentation.Controllers
 {
@@ -44,6 +40,7 @@ namespace maisAgua.Presentation.Controllers
                 Id = device.Id,
                 Name = device.Name,
                 InstallationDate = device.InstallationDate,
+                Readings = device.Readings,
             };
             return Ok(deviceDTO);
         }
@@ -53,12 +50,25 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<Device>> Create([FromBody] DeviceCreateDTO deviceDTO)
+        public async Task<ActionResult<Device>> Create([FromBody] DeviceCreateDTO createDTO)
         {
-            var device = await _service.CreateDeviceAsync(deviceDTO);
+            var device = await _service.CreateDeviceAsync(createDTO);
             return CreatedAtAction(nameof(GetById), new { id = device.Id }, device);
         }
 
+        [HttpPatch("{id}")]
+        public async Task<ActionResult<DeviceReadDTO>> Update(int id, [FromBody] DeviceUpdateDTO updateDTO)
+        {
+            var device = await _service.UpdateAsync(id, updateDTO);
+            var readDTO = new DeviceReadDTO()
+            {
+                Id = device.Id,
+                Name = device.Name,
+                InstallationDate = device.InstallationDate,
+                Readings = device.Readings,
+            };
+            return Ok(readDTO);
+        }
 
         [HttpDelete("{id}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -70,6 +80,8 @@ namespace maisAgua.Presentation.Controllers
             await _service.DeleteAsync(id);
             return NoContent();
         }
+
+
 
     }
 }

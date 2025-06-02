@@ -1,3 +1,4 @@
+using FluentValidation;
 using FluentValidation.Results;
 using maisAgua.Application.DTOs.DeviceDTO;
 using maisAgua.Application.Repository;
@@ -11,19 +12,21 @@ namespace maisAgua.Application.Service;
 public class DeviceService
 {
     public readonly DeviceRepository _repository;
-    public readonly DeviceCreateValidator _validator;
+    public readonly DeviceCreateValidator _createValidator;
+    public readonly DeviceUpdateValidator _updateValidator;
 
-    public DeviceService(DeviceRepository repository, DeviceCreateValidator validator)
+    public DeviceService(DeviceRepository repository, DeviceCreateValidator createValidator, DeviceUpdateValidator updateValidator)
     {
         _repository = repository;
-        _validator = validator;
+        _createValidator = createValidator;
+        _updateValidator = updateValidator;
     }
 
     public async Task<List<Device>> GetDevicesAsync() => await _repository.GetAllAsync();
 
     public async Task<Device> CreateDeviceAsync(DeviceCreateDTO createDTO)
     {
-        ValidationResult validationResult = await _validator.ValidateAsync(createDTO);
+        ValidationResult validationResult = await _createValidator.ValidateAsync(createDTO);
 
         if (!validationResult.IsValid)
         {
@@ -54,6 +57,24 @@ public class DeviceService
         var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
         await _repository.DeleteAsync(device);
         return true;
+    }
+
+    public async Task<Device> UpdateAsync(int id, DeviceUpdateDTO updateDTO)
+    {
+        var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
+
+        var validationResult =  await  _updateValidator.ValidateAsync(updateDTO);
+
+        if (!validationResult.IsValid)
+        {
+            var errorMsg = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
+            throw new DomainException("Falha ao atualizar dispositivo: " + errorMsg);
+        }
+
+        device.Name = updateDTO.Name ?? device.Name;
+        device.InstallationDate = updateDTO.InstallationDate.HasValue ? (DateTime)updateDTO.InstallationDate : device.InstallationDate;
+
+        return await _repository.UpdateAsync(device);
     }
 }
 

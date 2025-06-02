@@ -27,6 +27,10 @@ namespace maisAgua.Application.Repository
                 await _context.SaveChangesAsync();
                 return entity;
             }
+            catch (DbUpdateException ex)
+            {
+                throw new DomainException("FALHA AO ADICIONAR DISPOSITIVO. NOME JÁ EXISTE: " + ex);
+            }
             catch (Exception ex)
             {
                 throw new DomainException("Falha ao adicionar dispositivo.", ex);
@@ -47,11 +51,10 @@ namespace maisAgua.Application.Repository
             }
         }
 
-        public async Task<Device> Update(Device entity)
+        public async Task<Device> UpdateAsync(Device entity)
         {
             try
             {
-                _context.Update(entity);
                 _context.Entry(entity).State = EntityState.Modified;
                 await _context.SaveChangesAsync();
                 return entity;

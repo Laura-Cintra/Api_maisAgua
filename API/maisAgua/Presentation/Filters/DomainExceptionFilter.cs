@@ -30,8 +30,13 @@ public class DomainExceptionFilter : IExceptionFilter
             if (domainException is DeviceNotFoundException)
             {
                 errorResponse.StatusCode = (int)HttpStatusCode.NotFound;
+            }
+            else if (domainException is UniqueConstraintException)
+            {
+                errorResponse.Message = domainException.Message;
             };
-            
+
+
             if (_enviroment.IsDevelopment())
             {
                 errorResponse.StackTrace = context.Exception.StackTrace;

@@ -1,9 +1,12 @@
-﻿namespace maisAgua.Application.DTOs.DeviceDTO
+﻿using maisAgua.Domain.Device;
+
+namespace maisAgua.Application.DTOs.DeviceDTO
 {
     public record DeviceReadDTO
     {
         public int Id { get; set; }
         public string Name { get; set; }
         public DateTime InstallationDate { get; set; }
+        public List<Reading> Readings { get; set; }
     }
 }
