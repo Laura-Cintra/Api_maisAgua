@@ -19,7 +19,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Endpoint para retornar todos os dispositivos 
+        /// Retornar todos os dispositivos 
         /// </summary>
         /// <returns>
         /// Código 200 OK com a lista de dispositivos.
@@ -37,7 +37,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Endpoint para retornar um dispositivo específico pelo ID.
+        /// Retornar um dispositivo específico pelo ID.
         /// </summary>
         /// <param name="id">
         /// Id do dispositivo a ser retornado.
@@ -70,7 +70,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Endpoint para criar um novo dispositivo.
+        /// Criar um novo dispositivo.
         /// </summary>
         /// <param name="createDTO">
         /// Objeto que representa os dados de criação de um dispositivo. (Sem necessidade de Id, pois é gerado automaticamente pelo banco de dados.)
@@ -94,7 +94,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Endpoint para atualizar os dados completos ou parcialmente de um dispositivo existente.
+        /// Atualizar os dados completos ou parciais de um dispositivo existente.
         /// </summary>
         /// <param name="id">ID do dispositivo a ser atualizado</param>
         /// <param name="updateDTO">Objeto contendo as informações de atualização para o dispositivo existente</param>
@@ -126,7 +126,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Endpoint para deletar um dispositivo existente através do ID.
+        /// Deletar um dispositivo existente através do ID.
         /// </summary>
         /// <param name="id">
         /// Id do dispositivo a ser deletado.
