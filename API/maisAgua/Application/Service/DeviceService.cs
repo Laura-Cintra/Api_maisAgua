@@ -26,55 +26,83 @@ public class DeviceService
 
     public async Task<Device> CreateDeviceAsync(DeviceCreateDTO createDTO)
     {
-        ValidationResult validationResult = await _createValidator.ValidateAsync(createDTO);
-
-        if (!validationResult.IsValid)
+        try
         {
-            string error = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-            throw new DomainException(error);
+            ValidationResult validationResult = await _createValidator.ValidateAsync(createDTO);
+
+            if (!validationResult.IsValid)
+            {
+                string error = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new DomainException(error);
+            }
+
+            var device = new Device()
+            {
+                Name = createDTO.Name,
+                InstallationDate = createDTO.InstallationDate
+            };
+
+            await _repository.AddAsync(device);
+
+            return device;
+        }
+        catch (Exception ex)
+        {
+            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
         }
 
-        var device = new Device()
-        {
-            Name = createDTO.Name,
-            InstallationDate = createDTO.InstallationDate
-        };
-
-        await _repository.AddAsync(device);
-
-        return device;
     }
 
     public async Task<Device> GetByIdAsync(int id)
     {
-        var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
-
-        return device;
+        try
+        {
+            var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
+            return device;
+        }
+        catch (Exception ex)
+        {
+            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
+        }
     }
 
     public async Task<bool> DeleteAsync(int id)
     {
-        var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
-        await _repository.DeleteAsync(device);
-        return true;
+        try
+        {
+            var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
+            await _repository.DeleteAsync(device);
+            return true;
+        }
+        catch (Exception ex)
+        {
+            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
+        }
     }
 
     public async Task<Device> UpdateAsync(int id, DeviceUpdateDTO updateDTO)
     {
-        var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
-
-        var validationResult =  await  _updateValidator.ValidateAsync(updateDTO);
-
-        if (!validationResult.IsValid)
+        try
         {
-            var errorMsg = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-            throw new DomainException("Falha ao atualizar dispositivo: " + errorMsg);
+            var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
+
+            var validationResult = await _updateValidator.ValidateAsync(updateDTO);
+
+            if (!validationResult.IsValid)
+            {
+                var errorMsg = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
+                throw new DomainException("Falha ao atualizar dispositivo: " + errorMsg);
+            }
+
+            device.Name = updateDTO.Name ?? device.Name;
+            device.InstallationDate = updateDTO.InstallationDate.HasValue ? (DateTime)updateDTO.InstallationDate : device.InstallationDate;
+
+            return await _repository.UpdateAsync(device);
         }
-
-        device.Name = updateDTO.Name ?? device.Name;
-        device.InstallationDate = updateDTO.InstallationDate.HasValue ? (DateTime)updateDTO.InstallationDate : device.InstallationDate;
-
-        return await _repository.UpdateAsync(device);
+        catch (Exception ex)
+        {
+            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
+        }
     }
 }
 
