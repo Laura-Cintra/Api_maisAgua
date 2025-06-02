@@ -15,9 +15,29 @@ namespace maisAgua.Application.Repository
             _context = context;
         }
 
-        public async Task<List<Device>> GetAllAsync() => await _context.Devices.OrderBy(x => x.Id).Reverse().ToListAsync();
+        public async Task<List<Device>> GetAllAsync()
+        {
+            try
+            {
+                return await _context.Devices.OrderBy(x => x.Id).Reverse().ToListAsync();
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new DomainException("Operação de buscar dispositivos cancelada.", ex);
+            }
+        }
 
-        public async Task<Device> GetByIdAsync(int id) => await _context.Devices.FirstOrDefaultAsync(x => x.Id == id);
+        public async Task<Device> GetByIdAsync(int id)
+        {
+            try
+            {
+                return await _context.Devices.FirstOrDefaultAsync(x => x.Id == id);
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new DomainException("Operação de buscar dispositivo por id cancelada.", ex);
+            }
+        }
 
         public async Task<Device> AddAsync(Device entity)
         {
@@ -29,11 +49,11 @@ namespace maisAgua.Application.Repository
             }
             catch (DbUpdateException ex)
             {
-                throw new DomainException("FALHA AO ADICIONAR DISPOSITIVO. NOME JÁ EXISTE: " + ex);
+                throw new DomainException("Falha criar dispositivo no banco de dados. NOME JÁ EXISTE. " + ex);
             }
-            catch (Exception ex)
+            catch (OperationCanceledException ex)
             {
-                throw new DomainException("Falha ao adicionar dispositivo.", ex);
+                throw new DomainException("Operação de adicionar dispositivo no banco de dados cancelada.", ex);
             }
         }
 
@@ -45,9 +65,13 @@ namespace maisAgua.Application.Repository
                 await _context.SaveChangesAsync();
                 return true;
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                throw new DomainException("Falha ao deletar dispositivo.", ex);
+                throw new DomainException("Falha ao deletar dispositivo no banco de dados.", ex);
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new DomainException("Operação de deletar dispositivo no banco de dados cancelada.", ex);
             }
         }
 
@@ -59,9 +83,13 @@ namespace maisAgua.Application.Repository
                 await _context.SaveChangesAsync();
                 return entity;
             }
-            catch (Exception ex)
+            catch (DbUpdateException ex)
             {
-                throw new DomainException("Falha ao atualizar o dispositivo.", ex);
+                throw new DomainException("Falha ao atualizar o dispositivo no banco de dados.", ex);
+            }
+            catch (OperationCanceledException ex)
+            {
+                throw new DomainException("Operação de deletar dispositivo no banco de dados cancelada.", ex);
             }
         }
     }
