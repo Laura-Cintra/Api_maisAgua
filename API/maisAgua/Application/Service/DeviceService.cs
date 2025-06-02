@@ -1,11 +1,11 @@
-using FluentValidation;
 using FluentValidation.Results;
+using maisAgua.Application.Domain.Devices;
 using maisAgua.Application.DTOs.DeviceDTO;
 using maisAgua.Application.Repository;
-using maisAgua.Application.Validators;
-using maisAgua.Domain.Device;
+using maisAgua.Application.Validators.Device;
 using maisAgua.Domain.Exceptions;
-using Microsoft.AspNetCore.Mvc;
+using maisAgua.Domain.Persistence.Devices;
+using System.Reflection;
 
 namespace maisAgua.Application.Service;
 
@@ -22,7 +22,17 @@ public class DeviceService
         _updateValidator = updateValidator;
     }
 
-    public async Task<List<Device>> GetDevicesAsync() => await _repository.GetAllAsync();
+    public async Task<List<Device>> GetAllDevicesAsync()
+    {
+        try
+        {
+            return await _repository.GetAllAsync();
+        }
+        catch (Exception ex)
+        {
+            throw new DomainException("Erro não mapeado ao buscar dispositivos.", ex);
+        }
+    }
 
     public async Task<Device> CreateDeviceAsync(DeviceCreateDTO createDTO)
     {
@@ -48,12 +58,12 @@ public class DeviceService
         }
         catch (Exception ex)
         {
-            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
+            throw new DomainException("Erro não mapeado ao criar dispositivo.", ex);
         }
 
     }
 
-    public async Task<Device> GetByIdAsync(int id)
+    public async Task<Device> GetDeviceByIdAsync(int id)
     {
         try
         {
@@ -62,11 +72,11 @@ public class DeviceService
         }
         catch (Exception ex)
         {
-            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
+            throw new DomainException("Erro não mapeado ao criar dispositivo.", ex);
         }
     }
 
-    public async Task<bool> DeleteAsync(int id)
+    public async Task<bool> DeleteDeviceAsync(int id)
     {
         try
         {
@@ -76,11 +86,11 @@ public class DeviceService
         }
         catch (Exception ex)
         {
-            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
+            throw new DomainException("Erro não mapeado ao criar dispositivo.", ex);
         }
     }
 
-    public async Task<Device> UpdateAsync(int id, DeviceUpdateDTO updateDTO)
+    public async Task<Device> UpdateDeviceAsync(int id, DeviceUpdateDTO updateDTO)
     {
         try
         {
@@ -91,17 +101,20 @@ public class DeviceService
             if (!validationResult.IsValid)
             {
                 var errorMsg = string.Join("; ", validationResult.Errors.Select(e => e.ErrorMessage));
-                throw new DomainException("Falha ao atualizar dispositivo: " + errorMsg);
+                throw new DomainException("Erro ao atualizar dispositivo: " + errorMsg);
             }
-
-            device.Name = updateDTO.Name ?? device.Name;
-            device.InstallationDate = updateDTO.InstallationDate.HasValue ? (DateTime)updateDTO.InstallationDate : device.InstallationDate;
+            
+            // Aprender mais sobre auto mapper para evitar essa verificação manual
+            if (updateDTO.Name != null)
+                device.Name = updateDTO.Name;
+            if (updateDTO.InstallationDate != null) 
+                device.InstallationDate = (DateTime)updateDTO.InstallationDate;            
 
             return await _repository.UpdateAsync(device);
         }
         catch (Exception ex)
         {
-            throw new DomainException("Falha não mapeada ao criar dispositivo.", ex);
+            throw new DomainException("Erro não mapeado ao atualizar dispositivo.", ex);
         }
     }
 }

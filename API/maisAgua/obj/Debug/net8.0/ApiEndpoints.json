@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "maisAgua.Presentation.Controllers.DeviceController",
-    "Method": "GetAll",
+    "Method": "GetAllAsync",
     "RelativePath": "api/Device",
     "HttpMethod": "GET",
     "IsController": true,
@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[maisAgua.Domain.Device.Device, maisAgua, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[maisAgua.Domain.Persistence.Devices.Device, maisAgua, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -48,7 +48,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "maisAgua.Domain.Device.Device",
+        "Type": "maisAgua.Domain.Persistence.Devices.Device",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -82,7 +82,7 @@
   },
   {
     "ContainingType": "maisAgua.Presentation.Controllers.DeviceController",
-    "Method": "GetById",
+    "Method": "GetByIdAsync",
     "RelativePath": "api/Device/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -232,6 +232,241 @@
     ],
     "Tags": [
       "Dispositivos"
+    ]
+  },
+  {
+    "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
+    "Method": "GetAllAsync",
+    "RelativePath": "api/Reading",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [],
+    "ReturnTypes": [
+      {
+        "Type": "System.Collections.Generic.List\u00601[[maisAgua.Domain.Persistence.Readings.Reading, maisAgua, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 503
+      }
+    ],
+    "Tags": [
+      "Leituras"
+    ]
+  },
+  {
+    "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
+    "Method": "CreateAsync",
+    "RelativePath": "api/Reading",
+    "HttpMethod": "POST",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "createDTO",
+        "Type": "maisAgua.Application.DTOs.Readings.ReadingCreateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "maisAgua.Application.DTOs.Readings.ReadingReadDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 201
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 503
+      }
+    ],
+    "Tags": [
+      "Leituras"
+    ]
+  },
+  {
+    "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
+    "Method": "GetByIdAsync",
+    "RelativePath": "api/Reading/{id}",
+    "HttpMethod": "GET",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "maisAgua.Application.DTOs.Readings.ReadingReadDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 503
+      }
+    ],
+    "Tags": [
+      "Leituras"
+    ]
+  },
+  {
+    "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
+    "Method": "UpdateAsync",
+    "RelativePath": "api/Reading/{id}",
+    "HttpMethod": "PATCH",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      },
+      {
+        "Name": "updateDTO",
+        "Type": "maisAgua.Application.DTOs.Readings.ReadingUpdateDTO",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "maisAgua.Application.DTOs.Readings.ReadingReadDTO",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 200
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 400
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 503
+      }
+    ],
+    "Tags": [
+      "Leituras"
+    ]
+  },
+  {
+    "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
+    "Method": "DeleteAsync",
+    "RelativePath": "api/Reading/{id}",
+    "HttpMethod": "DELETE",
+    "IsController": true,
+    "Order": 0,
+    "Parameters": [
+      {
+        "Name": "id",
+        "Type": "System.Int32",
+        "IsRequired": true
+      }
+    ],
+    "ReturnTypes": [
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 204
+      },
+      {
+        "Type": "Microsoft.AspNetCore.Mvc.ProblemDetails",
+        "MediaTypes": [
+          "text/plain",
+          "application/json",
+          "text/json"
+        ],
+        "StatusCode": 404
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 500
+      },
+      {
+        "Type": "System.Void",
+        "MediaTypes": [],
+        "StatusCode": 503
+      }
+    ],
+    "Tags": [
+      "Leituras"
     ]
   }
 ]

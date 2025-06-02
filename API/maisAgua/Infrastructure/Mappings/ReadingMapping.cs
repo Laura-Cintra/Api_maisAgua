@@ -1,4 +1,4 @@
-﻿using maisAgua.Domain.Device;
+﻿using maisAgua.Domain.Persistence.Readings;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -29,9 +29,10 @@ namespace maisAgua.Infrastructure.Mappings
                 .HasColumnName("data_hora_leitura");
 
             builder.Property(r => r.IdDevice)
+                .IsRequired()
                 .HasColumnName("id_sensor");
 
-            builder.HasOne(r => r.Device)
+            builder.HasOne(r => r.AssociatedDevice)
                 .WithMany(d => d.Readings)
                 .HasForeignKey(r => r.IdDevice)
                 .OnDelete(DeleteBehavior.Restrict);

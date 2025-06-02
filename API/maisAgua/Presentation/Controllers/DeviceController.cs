@@ -1,6 +1,6 @@
 ﻿using maisAgua.Application.DTOs.DeviceDTO;
 using maisAgua.Application.Service;
-using maisAgua.Domain.Device;
+using maisAgua.Domain.Persistence.Devices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace maisAgua.Presentation.Controllers
@@ -19,7 +19,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Retornar todos os dispositivos 
+        /// Retorna todos os dispositivos 
         /// </summary>
         /// <returns>
         /// Código 200 OK com a lista de dispositivos.
@@ -30,14 +30,24 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<List<Device>>> GetAll()
+        public async Task<ActionResult<List<Device>>> GetAllAsync()
         {
-            return Ok(await _service.GetDevicesAsync());
+
+            var devices = await _service.GetAllDevicesAsync();
+            var devicesDTO = devices.Select(x => new DeviceReadDTO()
+            {
+                Id = x.Id,
+                Name = x.Name,
+                InstallationDate = x.InstallationDate,
+                Readings = x.Readings,
+            }).ToList();
+
+            return Ok(devicesDTO);
         }
 
 
         /// <summary>
-        /// Retornar um dispositivo específico pelo ID.
+        /// Retorna um dispositivo específico pelo ID.
         /// </summary>
         /// <param name="id">
         /// Id do dispositivo a ser retornado.
@@ -53,10 +63,10 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<DeviceReadDTO>> GetById(int id)
+        public async Task<ActionResult<DeviceReadDTO>> GetByIdAsync(int id)
         {
 
-            var device = await _service.GetByIdAsync(id);
+            var device = await _service.GetDeviceByIdAsync(id);
             var deviceDTO = new DeviceReadDTO
             {
                 Id = device.Id,
@@ -70,7 +80,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Criar um novo dispositivo.
+        /// Cria um novo dispositivo.
         /// </summary>
         /// <param name="createDTO">
         /// Objeto que representa os dados de criação de um dispositivo. (Sem necessidade de Id, pois é gerado automaticamente pelo banco de dados.)
@@ -88,13 +98,13 @@ namespace maisAgua.Presentation.Controllers
         public async Task<ActionResult<Device>> Create([FromBody] DeviceCreateDTO createDTO)
         {
             var device = await _service.CreateDeviceAsync(createDTO);
-            return CreatedAtAction(nameof(GetById), new { id = device.Id }, device);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = device.Id }, device);
         }
 
 
 
         /// <summary>
-        /// Atualizar os dados completos ou parciais de um dispositivo existente.
+        /// Atualiza os dados completos ou parciais de um dispositivo existente.
         /// </summary>
         /// <param name="id">ID do dispositivo a ser atualizado</param>
         /// <param name="updateDTO">Objeto contendo as informações de atualização para o dispositivo existente</param>
@@ -113,7 +123,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<DeviceReadDTO>> Update(int id, [FromBody] DeviceUpdateDTO updateDTO)
         {
-            var device = await _service.UpdateAsync(id, updateDTO);
+            var device = await _service.UpdateDeviceAsync(id, updateDTO);
             var readDTO = new DeviceReadDTO
             {
                 Id = device.Id,
@@ -126,7 +136,7 @@ namespace maisAgua.Presentation.Controllers
 
 
         /// <summary>
-        /// Deletar um dispositivo existente através do ID.
+        /// Deleta um dispositivo existente através do ID.
         /// </summary>
         /// <param name="id">
         /// Id do dispositivo a ser deletado.
@@ -144,7 +154,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult> Delete(int id)
         {
-            await _service.DeleteAsync(id);
+            await _service.DeleteDeviceAsync(id);
             return NoContent();
         }
     }

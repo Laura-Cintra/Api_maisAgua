@@ -22,7 +22,7 @@ namespace maisAgua.Migrations
 
             OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("maisAgua.Domain.Device.Device", b =>
+            modelBuilder.Entity("maisAgua.Domain.Devices.Device", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -48,7 +48,7 @@ namespace maisAgua.Migrations
                     b.ToTable("tbl_sensores", (string)null);
                 });
 
-            modelBuilder.Entity("maisAgua.Domain.Device.Reading", b =>
+            modelBuilder.Entity("maisAgua.Domain.Persistence.Readings.Reading", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
@@ -83,18 +83,18 @@ namespace maisAgua.Migrations
                     b.ToTable("tbl_leituras", (string)null);
                 });
 
-            modelBuilder.Entity("maisAgua.Domain.Device.Reading", b =>
+            modelBuilder.Entity("maisAgua.Domain.Persistence.Readings.Reading", b =>
                 {
-                    b.HasOne("maisAgua.Domain.Device.Device", "Device")
+                    b.HasOne("maisAgua.Domain.Devices.Device", "AssociatedDevice")
                         .WithMany("Readings")
                         .HasForeignKey("IdDevice")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
 
-                    b.Navigation("Device");
+                    b.Navigation("AssociatedDevice");
                 });
 
-            modelBuilder.Entity("maisAgua.Domain.Device.Device", b =>
+            modelBuilder.Entity("maisAgua.Domain.Devices.Device", b =>
                 {
                     b.Navigation("Readings");
                 });

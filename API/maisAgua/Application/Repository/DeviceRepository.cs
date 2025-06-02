@@ -1,6 +1,6 @@
-﻿using maisAgua.Domain.Device;
-using maisAgua.Domain.Exceptions;
+﻿using maisAgua.Domain.Exceptions;
 using maisAgua.Domain.Interfaces;
+using maisAgua.Domain.Persistence.Devices;
 using maisAgua.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 
@@ -19,7 +19,7 @@ namespace maisAgua.Application.Repository
         {
             try
             {
-                return await _context.Devices.OrderBy(x => x.Id).Reverse().ToListAsync();
+                return await _context.Devices.OrderByDescending(x => x.Id).ToListAsync();
             }
             catch (OperationCanceledException ex)
             {

@@ -1,4 +1,4 @@
-﻿using maisAgua.Domain.Device;
+﻿using maisAgua.Domain.Persistence.Devices;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 
@@ -25,8 +25,9 @@ namespace maisAgua.Infrastructure.Mappings
                 .HasColumnName("data_hora");
 
             builder.HasMany(d => d.Readings)
-                .WithOne(r => r.Device)
-                .HasForeignKey(r => r.IdDevice);
+                .WithOne(r => r.AssociatedDevice)
+                .HasForeignKey(r => r.IdDevice)
+                .OnDelete(DeleteBehavior.Cascade);
         }
     }
 }

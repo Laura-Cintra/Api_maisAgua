@@ -16,9 +16,21 @@
         <member name="M:maisAgua.Migrations.maisAguamigrationv1.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetAll">
+        <member name="T:maisAgua.Migrations.maisAguamigrationv2">
+            <inheritdoc />
+        </member>
+        <member name="M:maisAgua.Migrations.maisAguamigrationv2.Up(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:maisAgua.Migrations.maisAguamigrationv2.Down(Microsoft.EntityFrameworkCore.Migrations.MigrationBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:maisAgua.Migrations.maisAguamigrationv2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
+            <inheritdoc />
+        </member>
+        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetAllAsync">
             <summary>
-            Retornar todos os dispositivos 
+            Retorna todos os dispositivos 
             </summary>
             <returns>
             Código 200 OK com a lista de dispositivos.
@@ -26,9 +38,9 @@
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetById(System.Int32)">
+        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetByIdAsync(System.Int32)">
             <summary>
-            Retornar um dispositivo específico pelo ID.
+            Retorna um dispositivo específico pelo ID.
             </summary>
             <param name="id">
             Id do dispositivo a ser retornado.
@@ -42,7 +54,7 @@
         </member>
         <member name="M:maisAgua.Presentation.Controllers.DeviceController.Create(maisAgua.Application.DTOs.DeviceDTO.DeviceCreateDTO)">
             <summary>
-            Criar um novo dispositivo.
+            Cria um novo dispositivo.
             </summary>
             <param name="createDTO">
             Objeto que representa os dados de criação de um dispositivo. (Sem necessidade de Id, pois é gerado automaticamente pelo banco de dados.)
@@ -55,7 +67,7 @@
         </member>
         <member name="M:maisAgua.Presentation.Controllers.DeviceController.Update(System.Int32,maisAgua.Application.DTOs.DeviceDTO.DeviceUpdateDTO)">
             <summary>
-            Atualizar os dados completos ou parciais de um dispositivo existente.
+            Atualiza os dados completos ou parciais de um dispositivo existente.
             </summary>
             <param name="id">ID do dispositivo a ser atualizado</param>
             <param name="updateDTO">Objeto contendo as informações de atualização para o dispositivo existente</param>
@@ -69,7 +81,7 @@
         </member>
         <member name="M:maisAgua.Presentation.Controllers.DeviceController.Delete(System.Int32)">
             <summary>
-            Deletar um dispositivo existente através do ID.
+            Deleta um dispositivo existente através do ID.
             </summary>
             <param name="id">
             Id do dispositivo a ser deletado.
@@ -77,6 +89,76 @@
             <returns>
             Código 204 No Content se o dispositivo for deletado com sucesso.
             Código 404 Not Found se o dispositivo não for encontrado.
+            Código 500 Internal Server Error se ocorrer um erro no servidor.
+            Código 503 Service Unavailable se o serviço estiver indisponível.
+            </returns>
+        </member>
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.GetAllAsync">
+            <summary>
+            Retorna todas as leituras cadastradas no sistema.
+            </summary>
+            <returns>
+            Código 200 OK com a lista de leituras.
+            Código 500 Internal Server Error se ocorrer um erro no servidor.
+            Código 503 Service Unavailable se o serviço estiver indisponível.
+            </returns>
+        </member>
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.GetByIdAsync(System.Int32)">
+            <summary>
+            Retorna uma leitura específica pelo ID.
+            </summary>
+            <param name="id">
+            Id da leitura a ser retornada.
+            </param>
+            <returns>
+            Código 200 OK com a leitura encontrada.
+            Código 404 Not Found se a leitura não for encontrada.
+            Código 500 Internal Server Error se ocorrer um erro no servidor.
+            Código 503 Service Unavailable se o serviço estiver indisponível.
+            </returns>
+        </member>
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.CreateAsync(maisAgua.Application.DTOs.Readings.ReadingCreateDTO)">
+            <summary>
+            Cria uma nova leitura no sistema.
+            </summary>
+            <param name="createDTO">
+            Objeto de criação da leitura contendo os dados necessários.
+            </param>
+            <returns>
+            Código 201 Created com a leitura criada.
+            Código 400 Bad Request se os dados fornecidos forem inválidos. (por exemplo, se o nível de turbidez for negativo)
+            Código 500 Internal Server Error se ocorrer um erro no servidor.
+            Código 503 Service Unavailable se o serviço estiver indisponível.
+            </returns>
+        </member>
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.UpdateAsync(System.Int32,maisAgua.Application.DTOs.Readings.ReadingUpdateDTO)">
+            <summary>
+            Atualiza uma leitura existente no sistema.
+            </summary>
+            <param name="id">
+            Id da leitura a ser atualizada.
+            </param>
+            <param name="updateDTO">
+            Objeto de atualização da leitura contendo os novos dados.
+            </param>
+            <returns>
+            Código 200 OK com a leitura atualizada.
+            Código 404 Not Found se a leitura não for encontrada.
+            Código 400 Bad Request se os dados fornecidos forem inválidos. (por exemplo, se o nível de pH for fora do intervalo permitido)
+            Código 500 Internal Server Error se ocorrer um erro no servidor.
+            Código 503 Service Unavailable se o serviço estiver indisponível.
+            </returns>
+        </member>
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.DeleteAsync(System.Int32)">
+            <summary>
+            Deleta uma leitura existente no sistema.
+            </summary>
+            <param name="id">
+            Id da leitura a ser deletada.
+            </param>
+            <returns>
+            Código 204 No Content se a leitura for deletada com sucesso.
+            Código 404 Not Found se a leitura não for encontrada.
             Código 500 Internal Server Error se ocorrer um erro no servidor.
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>

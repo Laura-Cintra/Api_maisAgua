@@ -2,10 +2,12 @@ using maisAgua.Application.Repository;
 using maisAgua.Infrastructure.Context;
 using Microsoft.EntityFrameworkCore;
 using maisAgua.Application.Service;
-using maisAgua.Application.Validators;
 using maisAgua.Presentation.Filters;
 using Microsoft.OpenApi.Models;
 using System.Reflection;
+using maisAgua.Application.Validators.Device;
+using maisAgua.Application.Domain.Devices;
+using maisAgua.Application.Validators.Readings;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -43,14 +45,21 @@ builder.Services.AddDbContext<AppDbContext>(options =>
 
 // Repositorios
 builder.Services.AddScoped<DeviceRepository>();
+builder.Services.AddScoped<ReadingsRepository>();   
 
 // Validators
+    
+// Device
 builder.Services.AddScoped<DeviceCreateValidator>();
 builder.Services.AddScoped<DeviceUpdateValidator>();
-
+    
+// Reading
+builder.Services.AddScoped<ReadingCreateValidator>();
+builder.Services.AddScoped<ReadingUpdateValidator>();
 
 // Services
 builder.Services.AddScoped<DeviceService>();
+builder.Services.AddScoped<ReadingService>();
 
 var app = builder.Build();
 

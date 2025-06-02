@@ -1,4 +1,5 @@
-﻿using maisAgua.Domain.Device;
+﻿using maisAgua.Domain.Persistence.Devices;
+using maisAgua.Domain.Persistence.Readings;
 using maisAgua.Infrastructure.Mappings;
 using Microsoft.EntityFrameworkCore;
 
