@@ -6,7 +6,6 @@ C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\ob
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\obj\Debug\net8.0\maisAgua.MvcApplicationPartsAssemblyInfo.cs
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\obj\Debug\net8.0\maisAgua.MvcApplicationPartsAssemblyInfo.cache
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\obj\Debug\net8.0\maisAgua.sourcelink.json
-C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\appsettings.Development.json
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\appsettings.json
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\maisAgua.staticwebassets.endpoints.json
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\maisAgua.exe
@@ -145,3 +144,5 @@ C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bi
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\maisAgua.xml
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\obj\Debug\net8.0\maisAgua.xml
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
+C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\DotNetEnv.dll
+C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\Sprache.dll

@@ -28,7 +28,7 @@
         <member name="M:maisAgua.Migrations.maisAguamigrationv2.BuildTargetModel(Microsoft.EntityFrameworkCore.ModelBuilder)">
             <inheritdoc />
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetAllAsync">
+        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetAll">
             <summary>
             Retorna todos os dispositivos 
             </summary>
@@ -38,7 +38,7 @@
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetByIdAsync(System.Int32)">
+        <member name="M:maisAgua.Presentation.Controllers.DeviceController.GetById(System.Int32)">
             <summary>
             Retorna um dispositivo específico pelo ID.
             </summary>
@@ -93,7 +93,7 @@
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.ReadingController.GetAllAsync">
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.GetAll">
             <summary>
             Retorna todas as leituras cadastradas no sistema.
             </summary>
@@ -103,7 +103,7 @@
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.ReadingController.GetByIdAsync(System.Int32)">
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.GetById(System.Int32)">
             <summary>
             Retorna uma leitura específica pelo ID.
             </summary>
@@ -117,7 +117,7 @@
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.ReadingController.CreateAsync(maisAgua.Application.DTOs.Readings.ReadingCreateDTO)">
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.Create(maisAgua.Application.DTOs.Readings.ReadingCreateDTO)">
             <summary>
             Cria uma nova leitura no sistema.
             </summary>
@@ -131,7 +131,7 @@
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.ReadingController.UpdateAsync(System.Int32,maisAgua.Application.DTOs.Readings.ReadingUpdateDTO)">
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.Update(System.Int32,maisAgua.Application.DTOs.Readings.ReadingUpdateDTO)">
             <summary>
             Atualiza uma leitura existente no sistema.
             </summary>
@@ -149,7 +149,7 @@
             Código 503 Service Unavailable se o serviço estiver indisponível.
             </returns>
         </member>
-        <member name="M:maisAgua.Presentation.Controllers.ReadingController.DeleteAsync(System.Int32)">
+        <member name="M:maisAgua.Presentation.Controllers.ReadingController.Delete(System.Int32)">
             <summary>
             Deleta uma leitura existente no sistema.
             </summary>

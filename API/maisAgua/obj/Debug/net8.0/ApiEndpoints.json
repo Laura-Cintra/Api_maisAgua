@@ -1,7 +1,7 @@
 [
   {
     "ContainingType": "maisAgua.Presentation.Controllers.DeviceController",
-    "Method": "GetAllAsync",
+    "Method": "GetAll",
     "RelativePath": "api/Device",
     "HttpMethod": "GET",
     "IsController": true,
@@ -82,7 +82,7 @@
   },
   {
     "ContainingType": "maisAgua.Presentation.Controllers.DeviceController",
-    "Method": "GetByIdAsync",
+    "Method": "GetById",
     "RelativePath": "api/Device/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -236,7 +236,7 @@
   },
   {
     "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
-    "Method": "GetAllAsync",
+    "Method": "GetAll",
     "RelativePath": "api/Reading",
     "HttpMethod": "GET",
     "IsController": true,
@@ -269,7 +269,7 @@
   },
   {
     "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
-    "Method": "CreateAsync",
+    "Method": "Create",
     "RelativePath": "api/Reading",
     "HttpMethod": "POST",
     "IsController": true,
@@ -317,7 +317,7 @@
   },
   {
     "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
-    "Method": "GetByIdAsync",
+    "Method": "GetById",
     "RelativePath": "api/Reading/{id}",
     "HttpMethod": "GET",
     "IsController": true,
@@ -365,7 +365,7 @@
   },
   {
     "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
-    "Method": "UpdateAsync",
+    "Method": "Update",
     "RelativePath": "api/Reading/{id}",
     "HttpMethod": "PATCH",
     "IsController": true,
@@ -427,7 +427,7 @@
   },
   {
     "ContainingType": "maisAgua.Presentation.Controllers.ReadingController",
-    "Method": "DeleteAsync",
+    "Method": "Delete",
     "RelativePath": "api/Reading/{id}",
     "HttpMethod": "DELETE",
     "IsController": true,

@@ -32,7 +32,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<List<ReadingReadDTO>>> GetAllAsync()
+        public async Task<ActionResult<List<ReadingReadDTO>>> GetAll()
         {
             var readingsDTO = await _service.GetAllReadingsAsync();
             return Ok(readingsDTO);
@@ -55,7 +55,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<ReadingReadDTO>> GetByIdAsync(int id)
+        public async Task<ActionResult<ReadingReadDTO>> GetById(int id)
         {
             var readingDTO = await _service.GetReadingByIdAsync(id);
             return Ok(readingDTO);
@@ -79,7 +79,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<ReadingReadDTO>> CreateAsync([FromBody] ReadingCreateDTO createDTO)
+        public async Task<ActionResult<ReadingReadDTO>> Create([FromBody] ReadingCreateDTO createDTO)
         {
             var readingDTO = await _service.AddReadingAsync(createDTO);
             return StatusCode(StatusCodes.Status201Created, readingDTO);
@@ -108,7 +108,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<ReadingReadDTO>> UpdateAsync(int id, [FromBody] ReadingUpdateDTO updateDTO)
+        public async Task<ActionResult<ReadingReadDTO>> Update(int id, [FromBody] ReadingUpdateDTO updateDTO)
         {
             var readingDTO = await _service.UpdateReadingAsync(id, updateDTO);
             return Ok(readingDTO);
@@ -131,7 +131,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult> DeleteAsync(int id)
+        public async Task<ActionResult> Delete(int id)
         {
             await _service.DeleteReadingAsync(id);
             return NoContent();

@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("maisAgua")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+430173af8d602cb54e5a8065269ebffa8b7f59a7")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+05d55683faa9bd2c31efeb6d1885e28e47b61dac")]
 [assembly: System.Reflection.AssemblyProductAttribute("maisAgua")]
 [assembly: System.Reflection.AssemblyTitleAttribute("maisAgua")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

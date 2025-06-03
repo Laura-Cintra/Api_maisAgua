@@ -32,7 +32,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<List<DeviceReadDTO>>> GetAllAsync()
+        public async Task<ActionResult<List<DeviceReadDTO>>> GetAll()
         {
             return Ok(await _service.GetAllDevicesAsync());
         }
@@ -55,7 +55,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<DeviceReadDTO>> GetByIdAsync(int id)
+        public async Task<ActionResult<DeviceReadDTO>> GetById(int id)
         {
             var deviceReadDTO = await _service.GetDeviceByIdAsync(id);
             return Ok(deviceReadDTO);
@@ -81,7 +81,7 @@ namespace maisAgua.Presentation.Controllers
         public async Task<ActionResult<DeviceReadDTO>> Create([FromBody] DeviceCreateDTO createDTO)
         {
             var deviceReadDTO = await _service.CreateDeviceAsync(createDTO);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = deviceReadDTO.Id }, deviceReadDTO);
+            return CreatedAtAction("GetById", new { id = deviceReadDTO.Id }, deviceReadDTO);
         }
 
 
@@ -106,22 +106,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<DeviceReadDTO>> Update(int id, [FromBody] DeviceUpdateDTO updateDTO)
         {
-            var device = await _service.UpdateDeviceAsync(id, updateDTO);
-            var deviceReadDTO = new DeviceReadDTO
-            {
-                Id = device.Id,
-                Name = device.Name,
-                InstallationDate = device.InstallationDate,
-                Readings = device.Readings.Select(x => new ReadingReadDTO()
-                {
-                    Id = x.Id,
-                    LevelPct = x.LevelPct,
-                    TurbidityNtu = x.TurbidityNtu,
-                    PhLevel = x.PhLevel,
-                    ReadingDatetime = x.ReadingDatetime,
-                    IdDevice = x.IdDevice,
-                }).ToList(),
-            };
+            var deviceReadDTO = await _service.UpdateDeviceAsync(id, updateDTO);
             return Ok(deviceReadDTO);
         }
 
