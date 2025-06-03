@@ -9,7 +9,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[maisAgua.Domain.Persistence.Devices.Device, maisAgua, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[maisAgua.Application.DTOs.DeviceDTO.DeviceReadDTO, maisAgua, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -48,7 +48,7 @@
     ],
     "ReturnTypes": [
       {
-        "Type": "maisAgua.Domain.Persistence.Devices.Device",
+        "Type": "maisAgua.Application.DTOs.DeviceDTO.DeviceReadDTO",
         "MediaTypes": [
           "text/plain",
           "application/json",
@@ -244,7 +244,7 @@
     "Parameters": [],
     "ReturnTypes": [
       {
-        "Type": "System.Collections.Generic.List\u00601[[maisAgua.Domain.Persistence.Readings.Reading, maisAgua, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
+        "Type": "System.Collections.Generic.List\u00601[[maisAgua.Application.DTOs.Readings.ReadingReadDTO, maisAgua, Version=1.0.0.0, Culture=neutral, PublicKeyToken=null]]",
         "MediaTypes": [
           "text/plain",
           "application/json",

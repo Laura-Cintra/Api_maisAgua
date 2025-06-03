@@ -1,6 +1,5 @@
 ﻿using maisAgua.Application.DTOs.Readings;
 using maisAgua.Application.Service;
-using maisAgua.Domain.Persistence.Readings;
 using Microsoft.AspNetCore.Mvc;
 
 // For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
@@ -33,7 +32,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<List<Reading>>> GetAllAsync()
+        public async Task<ActionResult<List<ReadingReadDTO>>> GetAllAsync()
         {
             var readingsDTO = await _service.GetAllReadingsAsync();
             return Ok(readingsDTO);

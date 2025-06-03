@@ -8,6 +8,10 @@ using System.Reflection;
 using maisAgua.Application.Validators.Device;
 using maisAgua.Application.Domain.Devices;
 using maisAgua.Application.Validators.Readings;
+using DotNetEnv;
+
+
+Env.Load();
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -39,8 +43,10 @@ builder.Services.AddSwaggerGen(swagger =>
     swagger.IncludeXmlComments(xmlPath); // Isso indica para o Swagger a ler o arquivo xml criado.
 });
 
+var connectionString = Environment.GetEnvironmentVariable("ConnectionString__Oracle") ?? builder.Configuration.GetConnectionString("Oracle");
+
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseOracle(builder.Configuration.GetConnectionString("Oracle"))
+    options.UseOracle(connectionString)
 );
 
 // Repositorios

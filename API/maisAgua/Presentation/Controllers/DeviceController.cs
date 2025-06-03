@@ -1,8 +1,6 @@
 ﻿using maisAgua.Application.DTOs.DeviceDTO;
-using maisAgua.Application.DTOs.Devices;
 using maisAgua.Application.DTOs.Readings;
 using maisAgua.Application.Service;
-using maisAgua.Domain.Persistence.Devices;
 using Microsoft.AspNetCore.Mvc;
 
 namespace maisAgua.Presentation.Controllers
@@ -59,8 +57,8 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<DeviceReadDTO>> GetByIdAsync(int id)
         {
-            var deviceDTO = await _service.GetDeviceByIdAsync(id);
-            return Ok(deviceDTO);
+            var deviceReadDTO = await _service.GetDeviceByIdAsync(id);
+            return Ok(deviceReadDTO);
         }
 
 
@@ -82,8 +80,8 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<DeviceReadDTO>> Create([FromBody] DeviceCreateDTO createDTO)
         {
-            var deviceDTO = await _service.CreateDeviceAsync(createDTO);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = deviceDTO.Id }, deviceDTO);
+            var deviceReadDTO = await _service.CreateDeviceAsync(createDTO);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = deviceReadDTO.Id }, deviceReadDTO);
         }
 
 
@@ -109,7 +107,7 @@ namespace maisAgua.Presentation.Controllers
         public async Task<ActionResult<DeviceReadDTO>> Update(int id, [FromBody] DeviceUpdateDTO updateDTO)
         {
             var device = await _service.UpdateDeviceAsync(id, updateDTO);
-            var readDTO = new DeviceReadDTO
+            var deviceReadDTO = new DeviceReadDTO
             {
                 Id = device.Id,
                 Name = device.Name,
@@ -124,7 +122,7 @@ namespace maisAgua.Presentation.Controllers
                     IdDevice = x.IdDevice,
                 }).ToList(),
             };
-            return Ok(readDTO);
+            return Ok(deviceReadDTO);
         }
 
 

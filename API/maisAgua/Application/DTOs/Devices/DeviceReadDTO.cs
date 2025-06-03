@@ -1,5 +1,4 @@
 ﻿using maisAgua.Application.DTOs.Readings;
-using maisAgua.Domain.Persistence.Readings;
 
 namespace maisAgua.Application.DTOs.DeviceDTO
 {
