@@ -35,17 +35,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<List<Reading>>> GetAllAsync()
         {
-            var readings = await _service.GetAllReadingsAsync();
-            var readingsDTO = readings.Select(x => new ReadingReadDTO()
-            {
-                Id = x.Id,
-                LevelPct = x.LevelPct,
-                TurbidityNtu = x.TurbidityNtu,
-                PhLevel = x.PhLevel,
-                ReadingDatetime = x.ReadingDatetime,
-                IdDevice = x.IdDevice,
-            }).ToList();
-
+            var readingsDTO = await _service.GetAllReadingsAsync();
             return Ok(readingsDTO);
         }
 
@@ -68,17 +58,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<ReadingReadDTO>> GetByIdAsync(int id)
         {
-            var reading = await _service.GetReadingByIdAsync(id);
-            var readingDTO = new ReadingReadDTO()
-            {
-                Id = reading.Id,
-                LevelPct = reading.LevelPct,
-                TurbidityNtu = reading.TurbidityNtu,
-                PhLevel = reading.PhLevel,
-                ReadingDatetime = reading.ReadingDatetime,
-                IdDevice = reading.IdDevice,
-            };
-
+            var readingDTO = await _service.GetReadingByIdAsync(id);
             return Ok(readingDTO);
         }
 
@@ -102,16 +82,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<ReadingReadDTO>> CreateAsync([FromBody] ReadingCreateDTO createDTO)
         {
-            var reading = await _service.AddReadingAsync(createDTO);
-            var readingDTO = new ReadingReadDTO()
-            {
-                Id = reading.Id,
-                LevelPct = reading.LevelPct,
-                TurbidityNtu = reading.TurbidityNtu,
-                PhLevel = reading.PhLevel,
-                ReadingDatetime = reading.ReadingDatetime,
-                IdDevice = reading.IdDevice,
-            };
+            var readingDTO = await _service.AddReadingAsync(createDTO);
             return StatusCode(StatusCodes.Status201Created, readingDTO);
             //return CreatedAtAction(nameof(GetByIdAsync), new { id = reading.Id }, reading);
         }
@@ -140,17 +111,7 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<ReadingReadDTO>> UpdateAsync(int id, [FromBody] ReadingUpdateDTO updateDTO)
         {
-            var reading = await _service.UpdateReadingAsync(id, updateDTO);
-            var readingDTO = new ReadingReadDTO()
-            {
-                Id = reading.Id,
-                LevelPct = reading.LevelPct,
-                TurbidityNtu = reading.TurbidityNtu,
-                PhLevel = reading.PhLevel,
-                ReadingDatetime = reading.ReadingDatetime,
-                IdDevice = reading.IdDevice,
-            };
-
+            var readingDTO = await _service.UpdateReadingAsync(id, updateDTO);
             return Ok(readingDTO);
         }
 

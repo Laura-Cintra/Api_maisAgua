@@ -21,12 +21,24 @@ namespace maisAgua.Application.Service
             _updateValidator = updateValidator;
         }
 
-        public async Task<List<Reading>> GetAllReadingsAsync()
+        public async Task<List<ReadingReadDTO>> GetAllReadingsAsync()
         {
-            return await _repository.GetAllAsync();
+            var devices = await _repository.GetAllAsync();
+
+            var readingReadDTO = devices.OrderByDescending(x => x.Id).Select(x => new ReadingReadDTO()
+            {
+                Id = x.Id,
+                LevelPct = x.LevelPct,
+                TurbidityNtu = x.TurbidityNtu,
+                PhLevel = x.PhLevel,
+                ReadingDatetime = x.ReadingDatetime,
+                IdDevice = x.IdDevice
+            }).ToList();
+
+            return readingReadDTO;
         }
 
-        public async Task<Reading> AddReadingAsync(ReadingCreateDTO createDTO)
+        public async Task<ReadingReadDTO> AddReadingAsync(ReadingCreateDTO createDTO)
         {
             ValidationResult validationResult = await _createValidator.ValidateAsync(createDTO);
 
@@ -45,14 +57,24 @@ namespace maisAgua.Application.Service
                 IdDevice = createDTO.IdDevice
             };
 
-            return await _repository.AddAsync(reading);
+            reading = await _repository.AddAsync(reading);
 
+            var readingReadDTO = new ReadingReadDTO()
+            {
+                Id = reading.Id,
+                LevelPct = reading.LevelPct,
+                TurbidityNtu = reading.TurbidityNtu,
+                PhLevel = reading.PhLevel,
+                ReadingDatetime = reading.ReadingDatetime,
+                IdDevice = reading.IdDevice
+            };
+
+            return readingReadDTO;
         }
 
 
-        public async Task<Reading> UpdateReadingAsync(int id, ReadingUpdateDTO updateDTO)
+        public async Task<ReadingReadDTO> UpdateReadingAsync(int id, ReadingUpdateDTO updateDTO)
         {
-
             var reading = await _repository.GetByIdAsync(id) ?? throw new ReadingNotFoundException(id);
 
             ValidationResult validationResult = await _updateValidator.ValidateAsync(updateDTO);
@@ -75,7 +97,19 @@ namespace maisAgua.Application.Service
             if (updateDTO.IdDevice != null)
                 reading.IdDevice = updateDTO.IdDevice.Value;
 
-            return await _repository.UpdateAsync(reading);
+            reading = await _repository.UpdateAsync(reading);
+
+            var readingReadDTO = new ReadingReadDTO()
+            {
+                Id = reading.Id,
+                LevelPct = reading.LevelPct,
+                TurbidityNtu = reading.TurbidityNtu,
+                PhLevel = reading.PhLevel,
+                ReadingDatetime = reading.ReadingDatetime,
+                IdDevice = reading.IdDevice
+            };
+
+            return readingReadDTO;
         }
 
 
@@ -86,9 +120,20 @@ namespace maisAgua.Application.Service
             return await _repository.DeleteAsync(reading);
         }
 
-        public async Task<Reading> GetReadingByIdAsync(int id)
+        public async Task<ReadingReadDTO> GetReadingByIdAsync(int id)
         {
-            return await _repository.GetByIdAsync(id);
+            var reading = await _repository.GetByIdAsync(id) ?? throw new ReadingNotFoundException(id);
+
+            var readingReadDTO = new ReadingReadDTO()
+            {
+                Id = reading.Id,
+                LevelPct = reading.LevelPct,
+                TurbidityNtu = reading.TurbidityNtu,
+                PhLevel = reading.PhLevel,
+                ReadingDatetime = reading.ReadingDatetime,
+                IdDevice = reading.IdDevice
+            };
+            return readingReadDTO;
         }
     }
 }

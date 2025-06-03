@@ -1,6 +1,8 @@
 using FluentValidation.Results;
 using maisAgua.Application.Domain.Devices;
 using maisAgua.Application.DTOs.DeviceDTO;
+using maisAgua.Application.DTOs.Devices;
+using maisAgua.Application.DTOs.Readings;
 using maisAgua.Application.Repository;
 using maisAgua.Application.Validators.Device;
 using maisAgua.Domain.Exceptions;
@@ -21,17 +23,26 @@ public class DeviceService
         _updateValidator = updateValidator;
     }
 
-    public async Task<List<Device>> GetAllDevicesAsync()
+    public async Task<List<DevicesReadDTO>> GetAllDevicesAsync()
     {
+        var devices = await _repository.GetAllAsync();
+        var deviceReadDTO = devices.OrderByDescending(x => x.Id).Select(x => new DevicesReadDTO()
+        {
+            Id = x.Id,
+            Name = x.Name,
+            InstallationDate = x.InstallationDate,
+            Readings = x.Readings.OrderByDescending(z => z.Id).Take(5).Select(z => new ReadingBasicInfoDTO()
+            {
+                Id = z.Id,
+                ReadingDateTime = z.ReadingDatetime,
+            }).ToList(),
+        }).ToList();
 
-        return await _repository.GetAllAsync();
-
-
+        return deviceReadDTO;
     }
 
-    public async Task<Device> CreateDeviceAsync(DeviceCreateDTO createDTO)
+    public async Task<DeviceReadDTO> CreateDeviceAsync(DeviceCreateDTO createDTO)
     {
-
         ValidationResult validationResult = await _createValidator.ValidateAsync(createDTO);
 
         if (!validationResult.IsValid)
@@ -46,19 +57,39 @@ public class DeviceService
             InstallationDate = createDTO.InstallationDate
         };
 
-        await _repository.AddAsync(device);
+        device = await _repository.AddAsync(device);
 
-        return device;
+        var deviceReadDTO = new DeviceReadDTO()
+        {
+            Id = device.Id,
+            InstallationDate = device.InstallationDate,
+            Name = device.Name,
+            Readings = new List<ReadingReadDTO>()
+        };
 
+        return deviceReadDTO;
     }
 
-    public async Task<Device> GetDeviceByIdAsync(int id)
+    public async Task<DeviceReadDTO> GetDeviceByIdAsync(int id)
     {
 
         var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
-        return device;
-
-
+        var deviceReadDTO = new DeviceReadDTO
+        {
+            Id = device.Id,
+            Name = device.Name,
+            InstallationDate = device.InstallationDate,
+            Readings = device.Readings.OrderByDescending(x => x.Id).Take(10).Select(x => new ReadingReadDTO()
+            {
+                Id = x.Id,
+                LevelPct = x.LevelPct,
+                TurbidityNtu = x.TurbidityNtu,
+                PhLevel = x.PhLevel,
+                ReadingDatetime = x.ReadingDatetime,
+                IdDevice = x.IdDevice,
+            }).ToList(),
+        };
+        return deviceReadDTO;
     }
 
     public async Task<bool> DeleteDeviceAsync(int id)
@@ -68,7 +99,7 @@ public class DeviceService
         return true;
     }
 
-    public async Task<Device> UpdateDeviceAsync(int id, DeviceUpdateDTO updateDTO)
+    public async Task<DeviceReadDTO> UpdateDeviceAsync(int id, DeviceUpdateDTO updateDTO)
     {
         var device = await _repository.GetByIdAsync(id) ?? throw new DeviceNotFoundException(id);
 
@@ -85,8 +116,26 @@ public class DeviceService
             device.Name = updateDTO.Name;
         if (updateDTO.InstallationDate != null)
             device.InstallationDate = (DateTime)updateDTO.InstallationDate;
+        
+        
+        device = await _repository.UpdateAsync(device);
 
-        return await _repository.UpdateAsync(device);
+        var deviceReadDTO = new DeviceReadDTO()
+        {
+            Id = device.Id,
+            Name = device.Name,
+            InstallationDate = device.InstallationDate,
+            Readings = device.Readings.OrderByDescending(x => x.Id).Take(10).Select(x => new ReadingReadDTO()
+            {
+                Id = x.Id,
+                LevelPct = x.LevelPct,
+                TurbidityNtu = x.TurbidityNtu,
+                PhLevel = x.PhLevel,
+                ReadingDatetime = x.ReadingDatetime,
+                IdDevice = x.IdDevice
+            }).ToList(),
+        };
+        return deviceReadDTO;
     }
 }
 

@@ -34,23 +34,9 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<List<Device>>> GetAllAsync()
+        public async Task<ActionResult<List<DeviceReadDTO>>> GetAllAsync()
         {
-
-            var devices = await _service.GetAllDevicesAsync();
-            var devicesDTO = devices.OrderByDescending(x => x.Id).Select(x => new DevicesReadDTO()
-            {
-                Id = x.Id,
-                Name = x.Name,
-                InstallationDate = x.InstallationDate,
-                Readings = x.Readings.OrderByDescending(z => z.Id).Take(5).Select(z => new ReadingBasicInfoDTO()
-                {
-                    Id = z.Id,
-                    ReadingDateTime = z.ReadingDatetime,
-                }).ToList(),
-            }).ToList();
-
-            return Ok(devicesDTO);
+            return Ok(await _service.GetAllDevicesAsync());
         }
 
 
@@ -73,25 +59,8 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<DeviceReadDTO>> GetByIdAsync(int id)
         {
-
-            var device = await _service.GetDeviceByIdAsync(id);
-            var deviceDTO = new DeviceReadDTO
-            {
-                Id = device.Id,
-                Name = device.Name,
-                InstallationDate = device.InstallationDate,
-                Readings = device.Readings.OrderByDescending(x => x.Id).Take(10).Select(x => new ReadingReadDTO()
-                {
-                    Id = x.Id,
-                    LevelPct = x.LevelPct,
-                    TurbidityNtu = x.TurbidityNtu,
-                    PhLevel = x.PhLevel,
-                    ReadingDatetime = x.ReadingDatetime,
-                    IdDevice = x.IdDevice,
-                }).ToList(),
-            };
+            var deviceDTO = await _service.GetDeviceByIdAsync(id);
             return Ok(deviceDTO);
-
         }
 
 
@@ -111,10 +80,10 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
-        public async Task<ActionResult<Device>> Create([FromBody] DeviceCreateDTO createDTO)
+        public async Task<ActionResult<DeviceReadDTO>> Create([FromBody] DeviceCreateDTO createDTO)
         {
-            var device = await _service.CreateDeviceAsync(createDTO);
-            return CreatedAtAction(nameof(GetByIdAsync), new { id = device.Id }, device);
+            var deviceDTO = await _service.CreateDeviceAsync(createDTO);
+            return CreatedAtAction(nameof(GetByIdAsync), new { id = deviceDTO.Id }, deviceDTO);
         }
 
 
