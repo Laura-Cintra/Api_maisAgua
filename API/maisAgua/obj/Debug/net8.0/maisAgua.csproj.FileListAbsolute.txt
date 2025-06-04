@@ -143,6 +143,5 @@ C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\ob
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\FluentValidation.dll
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\maisAgua.xml
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\obj\Debug\net8.0\maisAgua.xml
-C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\obj\Debug\net8.0\staticwebassets.upToDateCheck.txt
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\DotNetEnv.dll
 C:\Users\Vinic\Documents\programacao\Fiap\GlobalSolutions\CSharp\API\maisAgua\bin\Debug\net8.0\Sprache.dll

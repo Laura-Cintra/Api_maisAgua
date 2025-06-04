@@ -27,7 +27,7 @@ public class DomainExceptionFilter : IExceptionFilter
                 Message = domainException.Message
             };
 
-            if (domainException is DeviceNotFoundException)
+            if (domainException is DeviceNotFoundException or is ReadingNotFoundException)
             {
                 errorResponse.StatusCode = (int)HttpStatusCode.NotFound;
             }

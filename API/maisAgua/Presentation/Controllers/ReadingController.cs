@@ -34,8 +34,8 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<List<ReadingReadDTO>>> GetAll()
         {
-            var readingsDTO = await _service.GetAllReadingsAsync();
-            return Ok(readingsDTO);
+            var readingReadDTO = await _service.GetAllReadingsAsync();
+            return Ok(readingReadDTO);
         }
 
         /// <summary>
@@ -57,8 +57,8 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<ReadingReadDTO>> GetById(int id)
         {
-            var readingDTO = await _service.GetReadingByIdAsync(id);
-            return Ok(readingDTO);
+            var readingReadDTO = await _service.GetReadingByIdAsync(id);
+            return Ok(readingReadDTO);
         }
 
 
@@ -81,9 +81,9 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<ReadingReadDTO>> Create([FromBody] ReadingCreateDTO createDTO)
         {
-            var readingDTO = await _service.AddReadingAsync(createDTO);
-            return StatusCode(StatusCodes.Status201Created, readingDTO);
-            //return CreatedAtAction(nameof(GetByIdAsync), new { id = reading.Id }, reading);
+            var readingReadDTO = await _service.AddReadingAsync(createDTO);
+            
+            return CreatedAtAction(nameof(GetById), new { id = readingReadDTO.Id }, readingReadDTO);
         }
 
         /// <summary>
@@ -110,8 +110,8 @@ namespace maisAgua.Presentation.Controllers
         [ProducesResponseType(StatusCodes.Status503ServiceUnavailable)]
         public async Task<ActionResult<ReadingReadDTO>> Update(int id, [FromBody] ReadingUpdateDTO updateDTO)
         {
-            var readingDTO = await _service.UpdateReadingAsync(id, updateDTO);
-            return Ok(readingDTO);
+            var readingReadDTO = await _service.UpdateReadingAsync(id, updateDTO);
+            return Ok(readingReadDTO);
         }
 
         /// <summary>
