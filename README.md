@@ -17,7 +17,6 @@ A aplicação visa **facilitar a integração com sistemas externos**, promovend
 * Validações robustas com **FluentValidation**
 * Tratamento de exceções customizadas
 * Uso de **Migrations** para versionamento do banco
-* **Testes unitários e de integração**
 
 ---
 
