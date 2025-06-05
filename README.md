@@ -1,118 +1,151 @@
-# +Água API REST
+# 🌎 Global Solutions - 2025 - 1º Semestre
 
-A +Água API REST é uma solução desenvolvida em .NET 8 para o monitoramento inteligente de recursos hídricos, permitindo o registro, consulta e gestão de dispositivos de medição e suas leituras. O sistema foi projetado para facilitar a integração com diferentes aplicações e promover a eficiência no controle e análise de dados relacionados ao consumo e à qualidade da água.
+## 💧 +Água API REST: Solução para Gestão de Recursos Hídricos
 
-A arquitetura da solução segue boas práticas de desenvolvimento, utilizando Entity Framework Core para persistência em banco de dados Oracle e o padrão RESTful para os endpoints. A API oferece um relacionamento 1:N entre dispositivos e leituras, possibilitando o acompanhamento detalhado do histórico de medições de cada sensor instalado. A documentação automática via Swagger proporciona facilidade na exploração e teste dos recursos disponíveis.
+A **+Água API REST** é uma solução desenvolvida em **.NET 8** para o **monitoramento inteligente de recursos hídricos**. Permite o **registro, consulta e gestão** de dispositivos de medição e suas respectivas leituras.
 
----
-
-## 📚 Requisitos Atendidos
-
-- API REST com boas práticas de arquitetura e programação
-- Persistência em banco de dados relacional (Oracle)
-- Relacionamento 1:N entre Dispositivo e Leituras
-- Documentação automática via Swagger
-- Migrations com Entity Framework Core
+A aplicação visa **facilitar a integração com sistemas externos**, promovendo **eficiência no controle e análise de dados** relacionados ao consumo e à qualidade da água, alinhando-se aos requisitos do projeto **Global Solutions**.
 
 ---
 
-## 🗂️ Estrutura da Solução
+## 🧱 Arquitetura e Tecnologias
 
-- **Domain**: Entidades de domínio e exceções
-- **Application**: Serviços, DTOs, validações (FluentValidation)
-- **Infrastructure**: Contexto EF Core, Migrations
-- **Presentation**: Controllers, filtros, endpoints REST
+* Arquitetura RESTful
+* Persistência via **Entity Framework Core** com **banco Oracle**
+* Relacionamento **1\:N** entre `Device` e `Reading`
+* Documentação automática com **Swagger**
+* Validações robustas com **FluentValidation**
+* Tratamento de exceções customizadas
+* Uso de **Migrations** para versionamento do banco
+* **Testes unitários e de integração**
+
+---
+
+## 📋 Funcionalidades Principais
+
+### 📿 Dispositivos (Device)
+
+* `GET /api/device` — Listar dispositivos
+* `GET /api/device/{id}` — Consultar dispositivo por ID
+* `POST /api/device` — Cadastrar novo dispositivo
+* `PATCH /api/device/{id}` — Atualizar parcialmente
+* `DELETE /api/device/{id}` — Remover por ID
+
+### 📊 Leituras (Reading)
+
+* `GET /api/reading` — Listar leituras
+* `GET /api/reading/{id}` — Consultar leitura por ID
+* `POST /api/reading` — Cadastrar leitura associada a um dispositivo
+* `PATCH /api/reading/{id}` — Atualizar parcialmente
+* `DELETE /api/reading/{id}` — Remover por ID
+
+---
+
+## 🛠️ Tecnologias Utilizadas
+
+* [.NET 8](https://dotnet.microsoft.com/) / ASP.NET Core
+* C# 12
+* Entity Framework Core 9
+* Oracle (via `Oracle.EntityFrameworkCore`)
+* Swagger (Swashbuckle)
+* FluentValidation
+* DotNetEnv (gerenciamento de variáveis de ambiente)
+
+---
+
+## 📂 Estrutura da Solução
+
+```bash
+.
+├── maisAgua.Domain/           # Entidades de domínio e exceções
+├── maisAgua.Application/      # Serviços, DTOs, validações (FluentValidation)
+├── maisAgua.Infrastructure/   # Contexto EF Core, Migrations, repositórios
+├── maisAgua.Presentation/     # Controllers, filtros, endpoints REST (API)
+└── tests/                     # Testes unitários e de integração
+```
 
 ---
 
 ## 📊 Diagrama de Entidades
+
+Relacionamento **1\:N** entre `Device` e `Reading`:
+
 ```
-┌────────────┐ 1    N ┌─────────────┐
-│  Device    │ ──────>│  Reading    │
-└────────────┘        └─────────────┘
-   Id (PK)                Id (PK)
-   Name                   LevelPct
-   InstallationDate       TurbidityNtu
-   ...                    ...
+┌─────────────────┐ 1     N ┌─────────────────┐
+│   Device        │ ──────> │     Reading     │
+└─────────────────┘         └─────────────────┘
+    Id (PK)                Id (PK)
+    Name                   LevelPct
+    InstallationDate       TurbidityNtu
+                           PhLevel
+                           ReadingDatetime
+                           IdDevice (FK)
 ```
----
 
-## 🚀 Funcionalidades
-
-- CRUD de Dispositivos (Device)
-- CRUD de Leituras (Reading)
-- Validações de domínio e tratamento de exceções customizadas
-- Documentação automática via Swagger
-- Respostas HTTP padronizadas (200, 201, 204, 400, 404, 500, 503)
+> **Device**: Representa um dispositivo de medição de água.
+> **Reading**: Representa uma leitura específica de um dispositivo, contendo nível, pH e turbidez.
 
 ---
 
-## 🔗 Principais Endpoints
+## 🚀 Como Executar o Projeto
 
-### Dispositivos
+### 1. Configurar a String de Conexão Oracle
 
-- `GET /api/device` — Lista todos os dispositivos
-- `GET /api/device/{id}` — Consulta um dispositivo por ID
-- `POST /api/device` — Cadastra um novo dispositivo
-- `PATCH /api/device/{id}` — Atualiza um dispositivo
-- `DELETE /api/device/{id}` — Remove um dispositivo
+No arquivo `appsettings.json` ou via variável de ambiente:
 
-### Leituras
-
-- `GET /api/reading` — Lista todas as leituras
-- `GET /api/reading/{id}` — Consulta uma leitura por ID
-- `POST /api/reading` — Cadastra uma nova leitura
-- `PATCH /api/reading/{id}` — Atualiza uma leitura
-- `DELETE /api/reading/{id}` — Remove uma leitura
+```json
+"ConnectionStrings": {
+  "Oracle": "Data Source=oracle.fiap.com.br:1521/orcl;User Id=seu_usuario;Password=sua_senha;"
+}
+```
 
 ---
 
-## ⚙️ Tecnologias Utilizadas
+### 2. Restaurar Pacotes
 
-- .NET 8 / ASP.NET Core
-- C# 12
-- Entity Framework Core 9
-- Oracle (Oracle.EntityFrameworkCore)
-- Swagger (Swashbuckle)
-- FluentValidation
-
----
-
-## 🏗️ Como Executar
-
-1. **Configurar a string de conexão Oracle**
-   - No arquivo `appsettings.json` ou via variável de ambiente:
-     ```
-     "ConnectionStrings": {
-       "Oracle": "Data Source=oracle.fiap.com.br:1521/orcl;User Id=seu_usuario;Password=sua_senha;"
-     }
-     ```
-
-2. **Restaurar pacotes e aplicar migrations**
-``` shell
+```bash
 dotnet restore
 ```
-**Console do Gerenciador de Pacotes**
-``` shell
-Update-Database maisAgua-migration-v2
+
+---
+
+### 3. Aplicar Migrations
+
+No **Console do Gerenciador de Pacotes**:
+
+```powershell
+Update-Database maisAgua-migrations-v2
 ```
 
-3. **Executar a aplicação**
+---
 
-``` shell
+### 4. Executar a Aplicação
+
+```bash
 dotnet run
 ```
 
-4. **Acessar a documentação Swagger**
-   [http://localhost:5222/swagger](http://localhost:5222/swagger)
+---
+
+### 5. Acessar a Documentação Swagger
+
+Acesse: [http://localhost:5222/swagger](http://localhost:5222/swagger)
+*(Ou a porta configurada no seu projeto)*
 
 ---
 
-## 👥 Equipe - Prisma.Code
-- Laura de Oliveira Cintra - RM 558843
-- Maria Eduarda Alves da Paixão - RM 558832
-- Vinícius Saes de Souza - RM 554456
+## 📚 Documentação Adicional
 
-> “Faça o teu melhor, na condição que você tem, enquanto você não tem condições melhores, para fazer melhor ainda.” — Mario Sergio Cortella
+A interface Swagger é a principal fonte para entender, explorar e testar os endpoints da API.
+Ela facilita o uso tanto em ambiente de desenvolvimento quanto em integração com outras aplicações.
 
 ---
+
+## 👥 Equipe — Prisma.Code
+
+* **Laura de Oliveira Cintra** — RM 558843
+* **Maria Eduarda Alves da Paixão** — RM 558832
+* **Vinícius Saes de Souza** — RM 554456
+
+> *“Faça o teu melhor, na condição que você tem, enquanto você não tem condições melhores, para fazer melhor ainda.”*
+> — **Mario Sergio Cortella**
