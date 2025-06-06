@@ -1,5 +1,4 @@
 ﻿using maisAgua.Application.DTOs.DeviceDTO;
-using maisAgua.Application.DTOs.Readings;
 using maisAgua.Application.Service;
 using Microsoft.AspNetCore.Mvc;
 

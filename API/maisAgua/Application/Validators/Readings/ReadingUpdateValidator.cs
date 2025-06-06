@@ -24,7 +24,7 @@ namespace maisAgua.Application.Validators.Readings
                 .LessThanOrEqualTo(14).WithMessage("Nível de PH tem que ser menor ou igual a 14");
             RuleFor(x => x.ReadingDatetime)
                 .NotEmpty().WithMessage("Data da leitura não pode estar vazia.")
-                .LessThanOrEqualTo(DateTime.Now).WithMessage("Data da leitura não pode ser no futuro.");
+                .LessThanOrEqualTo(DateTime.Now.AddSeconds(3)).WithMessage("Data da leitura não pode ser no futuro."); // adicionado delay de 3 segundos para evitar conflito de relógio do servidor com o node-red
             RuleFor(x => x.IdDevice)
                 .NotEmpty().WithMessage("ID do dispositivo não pode estar vazio.")
                 .GreaterThan(0).WithMessage("ID do dispositivo deve ser maior que 0.");

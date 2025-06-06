@@ -3,7 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
-using Oracle.EntityFrameworkCore.Metadata;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using maisAgua.Infrastructure.Context;
 
 #nullable disable
@@ -18,26 +18,26 @@ namespace maisAgua.Migrations
 #pragma warning disable 612, 618
             modelBuilder
                 .HasAnnotation("ProductVersion", "9.0.5")
-                .HasAnnotation("Relational:MaxIdentifierLength", 128);
+                .HasAnnotation("Relational:MaxIdentifierLength", 63);
 
-            OracleModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+            NpgsqlModelBuilderExtensions.UseIdentityByDefaultColumns(modelBuilder);
 
-            modelBuilder.Entity("maisAgua.Domain.Devices.Device", b =>
+            modelBuilder.Entity("maisAgua.Domain.Persistence.Devices.Device", b =>
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<DateTime>("InstallationDate")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_hora");
 
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasMaxLength(50)
-                        .HasColumnType("NVARCHAR2(50)")
+                        .HasColumnType("character varying(50)")
                         .HasColumnName("nome_dispositivo");
 
                     b.HasKey("Id");
@@ -52,28 +52,28 @@ namespace maisAgua.Migrations
                 {
                     b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
-                        .HasColumnType("NUMBER(10)");
+                        .HasColumnType("integer");
 
-                    OraclePropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+                    NpgsqlPropertyBuilderExtensions.UseIdentityByDefaultColumn(b.Property<int>("Id"));
 
                     b.Property<int>("IdDevice")
-                        .HasColumnType("NUMBER(10)")
+                        .HasColumnType("integer")
                         .HasColumnName("id_sensor");
 
                     b.Property<int>("LevelPct")
-                        .HasColumnType("NUMBER(10)")
+                        .HasColumnType("integer")
                         .HasColumnName("nivel_pct");
 
                     b.Property<float>("PhLevel")
-                        .HasColumnType("BINARY_FLOAT")
+                        .HasColumnType("real")
                         .HasColumnName("ph_int");
 
                     b.Property<DateTime>("ReadingDatetime")
-                        .HasColumnType("TIMESTAMP(7)")
+                        .HasColumnType("timestamp with time zone")
                         .HasColumnName("data_hora_leitura");
 
                     b.Property<float>("TurbidityNtu")
-                        .HasColumnType("BINARY_FLOAT")
+                        .HasColumnType("real")
                         .HasColumnName("turbidez_ntu");
 
                     b.HasKey("Id");
@@ -85,7 +85,7 @@ namespace maisAgua.Migrations
 
             modelBuilder.Entity("maisAgua.Domain.Persistence.Readings.Reading", b =>
                 {
-                    b.HasOne("maisAgua.Domain.Devices.Device", "AssociatedDevice")
+                    b.HasOne("maisAgua.Domain.Persistence.Devices.Device", "AssociatedDevice")
                         .WithMany("Readings")
                         .HasForeignKey("IdDevice")
                         .OnDelete(DeleteBehavior.Restrict)
@@ -94,7 +94,7 @@ namespace maisAgua.Migrations
                     b.Navigation("AssociatedDevice");
                 });
 
-            modelBuilder.Entity("maisAgua.Domain.Devices.Device", b =>
+            modelBuilder.Entity("maisAgua.Domain.Persistence.Devices.Device", b =>
                 {
                     b.Navigation("Readings");
                 });

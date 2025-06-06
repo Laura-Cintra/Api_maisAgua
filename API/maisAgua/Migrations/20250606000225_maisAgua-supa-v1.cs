@@ -1,11 +1,13 @@
-﻿using Microsoft.EntityFrameworkCore.Migrations;
+﻿using System;
+using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace maisAgua.Migrations
 {
     /// <inheritdoc />
-    public partial class maisAguamigrationv1 : Migration
+    public partial class maisAguasupav1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -14,10 +16,10 @@ namespace maisAgua.Migrations
                 name: "tbl_sensores",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    nome_dispositivo = table.Column<string>(type: "NVARCHAR2(50)", maxLength: 50, nullable: false),
-                    data_hora = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    nome_dispositivo = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
+                    data_hora = table.Column<DateTime>(type: "timestamp with time zone", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -28,13 +30,13 @@ namespace maisAgua.Migrations
                 name: "tbl_leituras",
                 columns: table => new
                 {
-                    Id = table.Column<int>(type: "NUMBER(10)", nullable: false)
-                        .Annotation("Oracle:Identity", "START WITH 1 INCREMENT BY 1"),
-                    nivel_pct = table.Column<int>(type: "NUMBER(10)", nullable: false),
-                    turbidez_ntu = table.Column<float>(type: "BINARY_FLOAT", nullable: false),
-                    ph_int = table.Column<float>(type: "BINARY_FLOAT", nullable: false),
-                    data_hora_leitura = table.Column<DateTime>(type: "TIMESTAMP(7)", nullable: false),
-                    id_sensor = table.Column<int>(type: "NUMBER(10)", nullable: false)
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    nivel_pct = table.Column<int>(type: "integer", nullable: false),
+                    turbidez_ntu = table.Column<float>(type: "real", nullable: false),
+                    ph_int = table.Column<float>(type: "real", nullable: false),
+                    data_hora_leitura = table.Column<DateTime>(type: "timestamp with time zone", nullable: false),
+                    id_sensor = table.Column<int>(type: "integer", nullable: false)
                 },
                 constraints: table =>
                 {
