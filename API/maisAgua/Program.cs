@@ -43,16 +43,12 @@ builder.Services.AddSwaggerGen(swagger =>
     swagger.IncludeXmlComments(xmlPath); // Isso indica para o Swagger a ler o arquivo xml criado.
 });
 
-var connectionString = Environment.GetEnvironmentVariable("ConnectionString__Postgre") ?? builder.Configuration.GetConnectionString("Oracle");
+var connectionString = Environment.GetEnvironmentVariable("ConnectionString__Oracle") ?? builder.Configuration.GetConnectionString("Oracle");
+
 
 builder.Services.AddDbContext<AppDbContext>(options =>
-    options.UseNpgsql(connectionString)
+    options.UseOracle(connectionString)
 );
-
-//builder.Services.AddDbContext<AppDbContext>(options =>
-//    options.UseOracle(connectionString)
-//);
-
 
 // Repositorios
 builder.Services.AddScoped<DeviceRepository>();
